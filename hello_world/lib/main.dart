@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'views/home_page.dart';
+import 'views/bloc_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => HomePage(),
+        '/bloc': (BuildContext context) => BlocPage(),
       },
     );
   }

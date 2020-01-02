@@ -33,9 +33,9 @@ class _HomePageState extends State<HomePage> {
             ),
             RaisedButton(
               onPressed: (){
-                Navigator.of(context).pushNamed("/");
+                Navigator.of(context).pushNamed("/bloc");
               },
-              child: Text('Route'),
+              child: Text('Bloc'),
             )
           ],
         ),
