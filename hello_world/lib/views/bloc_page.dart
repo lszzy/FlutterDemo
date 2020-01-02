@@ -1,5 +1,28 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+enum CounterEvent {
+  increment,
+  decrement,
+}
+
+class CounterBloc extends Bloc<CounterEvent, int> {
+  @override
+  int get initialState => 0;
+
+  @override
+  Stream<int> mapEventToState(CounterEvent event) async* {
+    switch (event) {
+      case CounterEvent.increment:
+        yield state + 1;
+        break;
+      case CounterEvent.decrement:
+        yield state - 1;
+        break;
+    }
+  }
+}
 
 class BlocPage extends StatefulWidget {
   @override
@@ -9,6 +32,7 @@ class BlocPage extends StatefulWidget {
 class _BlocPageState extends State<BlocPage> {
   int _counter = 0;
   final StreamController<int> _streamController = StreamController<int>();
+  final CounterBloc _counterBloc = CounterBloc();
 
   @override
   void dispose() {
@@ -30,11 +54,22 @@ class _BlocPageState extends State<BlocPage> {
                 stream: _streamController.stream,
                 initialData: _counter,
                 builder: (BuildContext context, AsyncSnapshot<int> snapshot){
-                  return Text("Counter ${snapshot.data}");
+                  return Text("Stream ${snapshot.data}");
                 },
               ),
               onPressed: (){
                 _streamController.sink.add(++_counter);
+              },
+            ),
+            RaisedButton(
+              child: BlocBuilder<CounterBloc, int>(
+                bloc: _counterBloc,
+                builder: (context, count) {
+                  return Text("Bloc $count");
+                },
+              ),
+              onPressed: (){
+                _counterBloc.add(CounterEvent.increment);
               },
             ),
             RaisedButton(
